@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Currency Converter</title>
+</head>
+<body>
+
+<h1>Currency Converter</h1>
+
+<div>
+  <label for="from">From:</label>
+  <input type="text" id="from" placeholder="Enter amount">
+  <select id="fromCurrency">
+    <option value="EUR">EUR</option>
+    <option value="GBP">GBP</option>
+    <!-- Add more currencies as needed -->
+  </select>
+</div>
+
+<div>
+  <label for="to">To:</label>
+  <input type="text" id="to" placeholder="Enter amount">
+  <select id="toCurrency">
+    <option value="USD">USD</option>
+    <option value="EUR">EUR</option>
+    <option value="GBP">GBP</option>
+    <!-- Add more currencies as needed -->
+  </select>
+</div>
+
+<button onclick="convertCurrency()">Convert</button>
+
+<script>
+function convertCurrency() {
+  var amount = document.getElementById('from').value;
+  var fromCurrency = document.getElementById('fromCurrency').value;
+  var toCurrency = document.getElementById('toCurrency').value;
+
+  // Replace 'YOUR_API_KEY' with your actual API key
+  var apiKey = 'f757366377-2bc6dd0fb5-sdhiwl';
+  var url = 'https://api.exchangeratesapi.io/latest?base=' + fromCurrency + '&symbols=' + toCurrency;
+
+  fetch(url)
+    .then(response => response.json())
+    .then(data => {
+        if (data && data.rates && data.rates[toCurrency]) {
+      var rate = data.rates[toCurrency];
+      var convertedAmount = (amount * rate).toFixed(2);
+      document.getElementById('to').value = convertedAmount;
+    } else{
+      console.log('Error: Exchange rate data is not available.');
+    }
+  });
+  
+}
+
+</script>
+
+</body>
+</html>
